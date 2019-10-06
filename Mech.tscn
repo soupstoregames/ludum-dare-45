@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player.gd" type="Script" id=1]
+[ext_resource path="res://sprites/player_base_1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/player_turret_1.png" type="Texture" id=3]
+
+[node name="Player" type="KinematicBody2D"]
+position = Vector2( 146.642, 101.368 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Body"]
+texture = ExtResource( 2 )
+
+[node name="Turret" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Turret"]
+texture = ExtResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true

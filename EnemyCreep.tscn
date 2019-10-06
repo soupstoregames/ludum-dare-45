@@ -1,0 +1,41 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://EnemyCreep.gd" type="Script" id=1]
+[ext_resource path="res://sprites/enemy_creep.png" type="Texture" id=2]
+[ext_resource path="res://sprites/healthbar_Animation 1_00.png" type="Texture" id=3]
+[ext_resource path="res://sprites/healthbar_Animation 1_01.png" type="Texture" id=4]
+[ext_resource path="res://sprites/healthbar_Animation 1_02.png" type="Texture" id=5]
+[ext_resource path="res://sprites/healthbar_Animation 1_03.png" type="Texture" id=6]
+[ext_resource path="res://sprites/healthbar_Animation 1_04.png" type="Texture" id=7]
+[ext_resource path="res://sprites/healthbar_Animation 1_05.png" type="Texture" id=8]
+[ext_resource path="res://sprites/healthbar_Animation 1_06.png" type="Texture" id=9]
+[ext_resource path="res://sprites/healthbar_Animation 1_07.png" type="Texture" id=10]
+[ext_resource path="res://sprites/healthbar_Animation 1_08.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "New Anim",
+"speed": 5.0
+} ]
+
+[node name="EnemyCreep" type="KinematicBody2D"]
+position = Vector2( 211.581, 125.538 )
+collision_layer = 64
+collision_mask = 11
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -0.991867, -2.00024, 0.95726, -1.98871, 0.968796, -0.96225, 1.98372, -0.96225, 1.97218, 0.986877, 0.95726, 0.975349, 0.968796, 1.96721, -1.0034, 1.96721, -0.991867, 0.929214, -1.94914, 0.975349, -1.94914, -0.973778, -0.980331, -0.96225 )
+
+[node name="Healthbar" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 1 )
+animation = "New Anim"
