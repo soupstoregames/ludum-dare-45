@@ -33,6 +33,7 @@ autostart = true
 
 [node name="ImpactSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+bus = "Sounds"
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="finished" from="ImpactSound" to="." method="_on_ImpactSound_finished"]

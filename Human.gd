@@ -7,6 +7,11 @@ const SPEED = 15
 const BULLET_FORCE = 200
 
 var movement = Vector2()
+var shoot = false
+
+func _unhandled_input(event):
+	if event.is_action_pressed("shoot"):
+		shoot = true
 
 func _physics_process(delta):
 	move()
@@ -54,11 +59,11 @@ func shoot():
 			$HarvestSound.stop()
 		$HarvestLine.clear_points()
 		
-	if Input.is_action_just_pressed("shoot"):
+	if shoot:
 		var bullet_instance = BULLET.instance()
 		get_parent().add_child(bullet_instance)
 		bullet_instance.position = global_position + point_vector
 		bullet_instance.apply_impulse(Vector2.ZERO, point_vector * BULLET_FORCE)
 		
 		$BulletSound.play()
-		return
+	shoot = false

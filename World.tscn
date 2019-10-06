@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ground.tres" type="TileSet" id=1]
 [ext_resource path="res://buildings.tres" type="TileSet" id=2]
@@ -7,11 +7,13 @@
 [ext_resource path="res://sounds/bullet.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/harvest.wav" type="AudioStream" id=6]
 [ext_resource path="res://Blob.tscn" type="PackedScene" id=7]
+[ext_resource path="res://sounds/theme.ogg" type="AudioStream" id=8]
+[ext_resource path="res://GUI.tscn" type="PackedScene" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1, 1 )
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node"]
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
@@ -53,6 +55,7 @@ shape = SubResource( 1 )
 
 [node name="BulletSound" type="AudioStreamPlayer2D" parent="Human"]
 stream = ExtResource( 5 )
+bus = "Sounds"
 
 [node name="HarvestRaycast" type="RayCast2D" parent="Human"]
 cast_to = Vector2( 0, 16 )
@@ -61,12 +64,15 @@ cast_to = Vector2( 0, 16 )
 stream = ExtResource( 6 )
 volume_db = -3.199
 attenuation = 0.757858
+bus = "Sounds"
 
 [node name="HarvestLine" type="Line2D" parent="Human"]
 width = 1.0
 default_color = Color( 0.4, 0.501961, 1, 1 )
+texture_mode = 0
 
 [node name="BlobController" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Blobs" type="Node2D" parent="BlobController"]
 
@@ -74,3 +80,10 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 position = Vector2( 328, 168 )
 
 [node name="Creeps" type="Node2D" parent="BlobController"]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+autoplay = true
+bus = "Music"
+
+[node name="GUI" parent="." instance=ExtResource( 9 )]
