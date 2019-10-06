@@ -1,22 +1,24 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Blob.gd" type="Script" id=1]
 [ext_resource path="res://sprites/blob1.png" type="Texture" id=2]
 [ext_resource path="res://sprites/blob2.png" type="Texture" id=3]
 [ext_resource path="res://sprites/blob3.png" type="Texture" id=4]
-[ext_resource path="res://sprites/healthbar_Animation 1_00.png" type="Texture" id=5]
-[ext_resource path="res://sprites/healthbar_Animation 1_01.png" type="Texture" id=6]
-[ext_resource path="res://sprites/healthbar_Animation 1_02.png" type="Texture" id=7]
-[ext_resource path="res://sprites/healthbar_Animation 1_03.png" type="Texture" id=8]
-[ext_resource path="res://sprites/healthbar_Animation 1_04.png" type="Texture" id=9]
-[ext_resource path="res://sprites/healthbar_Animation 1_05.png" type="Texture" id=10]
-[ext_resource path="res://sprites/healthbar_Animation 1_06.png" type="Texture" id=11]
-[ext_resource path="res://sprites/healthbar_Animation 1_07.png" type="Texture" id=12]
-[ext_resource path="res://sprites/healthbar_Animation 1_08.png" type="Texture" id=13]
+[ext_resource path="res://sprites/blob4.png" type="Texture" id=5]
+[ext_resource path="res://sprites/healthbar_Animation 1_00.png" type="Texture" id=6]
+[ext_resource path="res://sprites/healthbar_Animation 1_01.png" type="Texture" id=7]
+[ext_resource path="res://sprites/healthbar_Animation 1_02.png" type="Texture" id=8]
+[ext_resource path="res://sprites/healthbar_Animation 1_03.png" type="Texture" id=9]
+[ext_resource path="res://sprites/healthbar_Animation 1_04.png" type="Texture" id=10]
+[ext_resource path="res://sprites/healthbar_Animation 1_05.png" type="Texture" id=11]
+[ext_resource path="res://sprites/healthbar_Animation 1_06.png" type="Texture" id=12]
+[ext_resource path="res://sprites/healthbar_Animation 1_07.png" type="Texture" id=13]
+[ext_resource path="res://sprites/healthbar_Animation 1_08.png" type="Texture" id=14]
+[ext_resource path="res://sounds/blob_dead.wav" type="AudioStream" id=15]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "default",
 "speed": 5.0
@@ -27,7 +29,7 @@ extents = Vector2( 8, 8 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "New Anim",
 "speed": 5.0
@@ -36,7 +38,7 @@ animations = [ {
 [node name="Blob" type="StaticBody2D"]
 position = Vector2( 176, 144 )
 collision_layer = 4
-collision_mask = 10
+collision_mask = 8
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -60,4 +62,10 @@ animation = "New Anim"
 enabled = true
 cast_to = Vector2( 0, 16 )
 collision_mask = 4
+
+[node name="death_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 15 )
+volume_db = -16.156
+bus = "Sounds"
 [connection signal="timeout" from="Growth" to="." method="_on_Growth_timeout"]
+[connection signal="finished" from="death_sound" to="." method="_on_death_sound_finished"]

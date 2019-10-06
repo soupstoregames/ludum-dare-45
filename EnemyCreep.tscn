@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://EnemyCreep.gd" type="Script" id=1]
 [ext_resource path="res://sprites/enemy_creep.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://sprites/healthbar_Animation 1_06.png" type="Texture" id=9]
 [ext_resource path="res://sprites/healthbar_Animation 1_07.png" type="Texture" id=10]
 [ext_resource path="res://sprites/healthbar_Animation 1_08.png" type="Texture" id=11]
+[ext_resource path="res://sounds/creep_attack.wav" type="AudioStream" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -21,15 +22,16 @@ animations = [ {
 } ]
 
 [node name="EnemyCreep" type="KinematicBody2D"]
-position = Vector2( 211.581, 125.538 )
+position = Vector2( 211.173, 125.334 )
 collision_layer = 64
-collision_mask = 11
+collision_mask = 107
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+z_index = 1
 texture = ExtResource( 2 )
 
 [node name="Collision" type="CollisionPolygon2D" parent="."]
@@ -39,3 +41,12 @@ polygon = PoolVector2Array( -0.991867, -2.00024, 0.95726, -1.98871, 0.968796, -0
 visible = false
 frames = SubResource( 1 )
 animation = "New Anim"
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
+volume_db = -10.0
+pitch_scale = 1.25
+bus = "Sounds"

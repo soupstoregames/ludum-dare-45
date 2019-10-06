@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/creep_attack.wav-17e3028de99e0d12949843fcd8014109.sample"
+
+[deps]
+
+source_file="res://sounds/creep_attack.wav"
+dest_files=[ "res://.import/creep_attack.wav-17e3028de99e0d12949843fcd8014109.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Tutorial.gd" type="Script" id=1]
+[ext_resource path="res://pixel.tres" type="DynamicFont" id=2]
+
+[node name="Tutorial" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -67.0
+margin_top = -25.0
+margin_right = 67.0
+margin_bottom = -10.0
+custom_fonts/font = ExtResource( 2 )
+text = "Back to Main Menu"
+
+[node name="Plot" type="Label" parent="."]
+anchor_right = 1.0
+margin_top = 10.0
+margin_bottom = 144.0
+custom_fonts/font = ExtResource( 2 )
+custom_constants/line_spacing = -2
+text = "The ravenous blob has descended on planet earth!
+Find and destroy the blob before it devours all the buildings and trees!
+WASD - Move
+LMB - Shoot
+RMB - Harvest
+Harvest buildings and trees with RMB to get supercharged bullets.
+
+The blob will spawn creeps if it devours buildings and trees.
+Kill the creeps for some extra points, but the blob is the main threat.
+Lose all buildings and trees, or die, and its game over.
+Try to save as many buildings and trees as possible for a high score!"
+align = 1
+uppercase = true
+percent_visible = -0.0025641
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

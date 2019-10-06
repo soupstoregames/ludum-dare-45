@@ -3,18 +3,28 @@ extends StaticBody2D
 var BLOB = load("res://Blob.tscn")
 var CREEP = load("res://EnemyCreep.tscn")
 
-var max_health = 100
-var current_health = 100
-var heal_per_tick = 20
+var max_health = 25
+var current_health = max_health
+var heal_per_tick = 10
 
-var required_growth = 15
+var required_growth = 12
 var current_growth = 0
 var growth_level = 0
 
-onready var ground_tilemap = get_tree().get_root().get_node("World/Ground")
-onready var buildings_tilemap = get_tree().get_root().get_node("World/Buildings")
+onready var ground_tilemap = get_tree().get_root().get_node("World/Navigation2D/Ground")
+onready var buildings_tilemap = get_tree().get_root().get_node("World/Navigation2D/Buildings")
+
+signal blob_died
+signal building_devoured
+signal trees_devoured
+
+func _ready():
+	connect("building_devoured", get_tree().get_root().get_node("World/ScoreKeeper"), "_on_Blob_building_devoured")
+	connect("trees_devoured", get_tree().get_root().get_node("World/ScoreKeeper"), "_on_Blob_trees_devoured")
 
 func apply_damage(amount):
+	if self.visible == false:
+		return
 	current_health -= amount
 	if current_health <= 0:
 		die()
@@ -23,7 +33,9 @@ func apply_damage(amount):
 		update_health_bar()
 
 func die():
-	queue_free()
+	self.visible = false
+	emit_signal("blob_died")
+	$death_sound.play()
 
 func update_health_bar():
 	$Healthbar.show()
@@ -43,7 +55,11 @@ func spawn():
 		possible_spawn_locations.append(Vector2(16, 0))
 		
 	if possible_spawn_locations.size() == 0:
+		$Growth.wait_time = 15
+		$AnimatedSprite.frame += 1
 		return
+	
+	$Growth.wait_time = 1
 		
 	var spawn_point = possible_spawn_locations[randi() % possible_spawn_locations.size()]
 	var blob_instance = BLOB.instance()
@@ -61,6 +77,8 @@ func check_spawn_location(loc):
 	return $Raycast.get_collider() == null
 
 func spawn_creep(number):
+	if get_parent().get_parent().get_node("Creeps").get_child_count() > 50:
+		return
 	for i in range(number):
 		var creep_instance = CREEP.instance()
 		get_parent().get_parent().get_node("Creeps").add_child(creep_instance)
@@ -76,29 +94,37 @@ func _on_Growth_timeout():
 			$Healthbar.hide()
 		return
 		
-	current_growth += 1
+	current_growth += rand_range(1, 4)
 	# see if we've reached the next stage
 	if current_growth >= required_growth:
 		current_growth = 0
 		if growth_level < 2:
 			$AnimatedSprite.frame += 1
 			growth_level += 1
-			required_growth *= 2
+			required_growth *= 1.5
 			max_health *= 2
 			current_health = max_health
 			
 			# when grown to full size, harvest the tile
 			if growth_level == 2:
-				var tile = ground_tilemap.world_to_map(global_position)
+				var tilePos = ground_tilemap.world_to_map(global_position)
 				# grass
-				if ground_tilemap.get_cellv(tile) == 0:
-					spawn_creep(3)
-				ground_tilemap.set_cellv(tile, 3)
-				
+				if ground_tilemap.get_cellv(tilePos) == 0:
+					spawn_creep(1)
+				ground_tilemap.set_cellv(tilePos, 3)
+				var tile = buildings_tilemap.get_cellv(tilePos)
 				# trees
-				if buildings_tilemap.get_cellv(tile) == 16:
-					spawn_creep(6)
-				buildings_tilemap.set_cellv(tile, -1)
+				if tile == 0 or tile == 1 or tile == 2 or tile == 3 or tile == 4:
+					spawn_creep(2)
+					emit_signal("building_devoured")
+				if tile == 16:
+					spawn_creep(1)
+					emit_signal("trees_devoured")
+				buildings_tilemap.set_cellv(tilePos, -1)
+				buildings_tilemap.update_dirty_quadrants()
 		
 		else:
 			spawn()
+
+func _on_death_sound_finished():
+	queue_free()
